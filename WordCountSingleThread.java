@@ -5,11 +5,21 @@ public class WordCountSingleThread {
   
   private Hashtable<String, Integer> table = new Hashtable<String, Integer>();
   
-  public void readFile() {
+  public File[] createFileList(String directory) {
+    TextFileNameFilter textFilter = new TextFileNameFilter();
+    File[] files = new File(directory).listFiles(textFilter);
+    //File[] fileList = files.listFiles(textFilter);
     
-    File file = new File("test-text/test1.txt");
-    
-    try {
+      
+    for(int i=0; i < files.length; i++){
+      System.out.println(files[i].toString());
+      
+    }
+    return files;
+  }
+  
+  public void countWordsInFile(File file ){
+      try {
       
       Scanner sc = new Scanner(file);
       
@@ -68,13 +78,32 @@ public class WordCountSingleThread {
       System.out.println(next + ",\t" + table.get(next));
     }
   }
-  
+  public void output(String outputFileName){
+    File outputFile = new File(outputFileName);
+    try{
+    FileWriter writeOutputFile = new FileWriter(outputFile);
+    
+    Enumeration<String> entries = table.keys();
+    while(entries.hasMoreElements()){
+      String next = entries.nextElement();
+      
+      writeOutputFile.write(next + ":\t\t" + table.get(next)+"\n");
+  }
+    writeOutputFile.close();
+    }catch(IOException ex){
+      System.err.println(ex);
+    }
+  }
   public static void main(String args[]) {
     
     WordCountSingleThread abc = new WordCountSingleThread();
     
-    abc.readFile();
-    
+  
+    File[] files = abc.createFileList("test-text"); //make args[0]
+    for(File file : files){
+      abc.countWordsInFile(file);
+    }
+    abc.output("output.txt");
     abc.show();
   }
 }
