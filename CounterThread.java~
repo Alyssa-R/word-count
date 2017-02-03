@@ -1,0 +1,19 @@
+import java.lang.Thread;
+import java.util.Hashtable;
+  
+public class CounterThread extends Thread {
+  Hashtable master;
+  
+  public CounterThread(Hashtable m, ){
+    super();
+    this.master = m;
+  }
+  
+  public void run(){
+  //each thread creates hash table of counted words
+    //merge all the hashtables to master hashtable -- thread by thread master key
+  
+  }
+  
+
+}

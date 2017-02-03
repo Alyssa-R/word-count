@@ -1,0 +1,15 @@
+import java.io.File;
+
+public class WordCountMultiThread{
+  
+  public static void main (String[] args){
+  
+    //count how many files
+    //make that many threads
+    //each thread creates hash table of counted words
+    //merge all the hashtables to master hashtable -- thread by thread master key
+    //generate output file from master hashtable
+  
+  }
+
+}

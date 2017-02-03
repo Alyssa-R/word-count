@@ -18,7 +18,7 @@ public class WordCountSingleThread {
     return files;
   }
   
-  public void countWordsInFile(File file ){
+  public void countWordsInFile(File file){
       try {
       
       Scanner sc = new Scanner(file);
