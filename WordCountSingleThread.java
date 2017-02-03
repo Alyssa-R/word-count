@@ -99,11 +99,11 @@ public class WordCountSingleThread {
     WordCountSingleThread abc = new WordCountSingleThread();
     
   
-    File[] files = abc.createFileList("test-text"); //make args[0]
+    File[] files = abc.createFileList(args[0]);//"test-text" //make args[0]
     for(File file : files){
       abc.countWordsInFile(file);
     }
-    abc.output("output.txt");
+    abc.output(args[1]);//"output.txt"
     abc.show();
   }
 }

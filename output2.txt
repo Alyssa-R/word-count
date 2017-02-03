@@ -1,0 +1,17 @@
+are:		2
+achieve:		2
+born:		2
+thrust:		2
+not:		2
+afraid:		2
+upon:		2
+them:		2
+and:		2
+great:		2
+have:		2
+be:		2
+world:		1
+hello:		1
+greatness:		6
+some:		6
+of:		2
