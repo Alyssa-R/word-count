@@ -13,8 +13,12 @@ public class WordCountMultiThread{
     CounterThread c3 = new CounterThread(c);
     
     c1.start();
+
     c2.start();
     c3.start();
+    
+    
+    CounterThread.output("output.txt");
     
     //count how many files
     //make that many threads
