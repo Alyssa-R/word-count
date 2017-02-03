@@ -94,7 +94,7 @@ public class WordCountSingleThread {
       System.err.println(ex);
     }
   }
-  public static void main(String args[]) {
+  public static void main(String args[]) { //supply text folder name as first arg and output file name as second arg
     
     WordCountSingleThread abc = new WordCountSingleThread();
     
