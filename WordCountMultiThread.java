@@ -45,7 +45,7 @@ public class WordCountMultiThread{
           fileIndex++;
           
         }
-        newThreads[i] = new CounterThread(assignedFiles);
+        newThreads[i] = new CounterThread(assignedFiles, threadCount);
       }
     }else{ // if it cannot be divided evenly
        //fill the ones that can be assignd evenly
@@ -59,7 +59,7 @@ public class WordCountMultiThread{
           assignedFiles[j] = files[fileIndex];
           fileIndex++;
         }
-        newThreads[i] = new CounterThread(assignedFiles);
+        newThreads[i] = new CounterThread(assignedFiles, threadCount);
       }
       
       //takes care of the left over
@@ -71,7 +71,7 @@ public class WordCountMultiThread{
           fileIndex++;
 
         }
-        newThreads[newThreads.length-1] = new CounterThread(assignedLeftOverFiles);
+        newThreads[newThreads.length-1] = new CounterThread(assignedLeftOverFiles, threadCount);
         System.out.println("Left over files array length: " + assignedLeftOverFiles.length);
       }
     return newThreads;

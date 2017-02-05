@@ -15,20 +15,24 @@ import java.util.Set;
 public class CounterThread extends Thread {
   static Semaphore mutex = new Semaphore(1);
   static Hashtable<String, Integer> master = new Hashtable<String, Integer>();
+  static int threadCount;
+  static Semaphore allDone = new Semaphore(threadCount);
   File file;
   File[] fileArray;
   
   /*
    * file is the assigned file for this thread to count
    */ 
-  public CounterThread(File f){
+  public CounterThread(File f, int tc){
     super();
     this.file = f;
+    this.threadCount = tc;
   }
   
-  public CounterThread(File[] f){
+  public CounterThread(File[] f, int tc){
     super();
     this.fileArray = f;
+    this.threadCount = tc;
   }
   
   public void run(){
@@ -41,6 +45,9 @@ public class CounterThread extends Thread {
       mergeWithMaster(table);
      // System.out.println("releasing mutex");
       mutex.release();
+      allDone.release();
+      allDone.acquire();
+      output("output.txt");
     } catch(InterruptedException ex){
       System.err.print(ex);
     }
