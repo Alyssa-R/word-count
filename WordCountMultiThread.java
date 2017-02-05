@@ -116,9 +116,6 @@ public class WordCountMultiThread{
     //CounterThread c2 = new CounterThread(b);
     //CounterThread c3 = new CounterThread(c);
     
-    //c1.start();
-    //c2.start();
-    //c3.start();
     
     //count how many files
     //make that many threads

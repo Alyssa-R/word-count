@@ -1,7 +1,9 @@
 import java.lang.Thread;
 import java.lang.InterruptedException;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.concurrent.Semaphore;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -34,10 +36,10 @@ public class CounterThread extends Thread {
     Hashtable<String, Integer> table = countWordsInMultipleFiles(fileArray);
     
     try{
-      System.out.println("acquiring mutex");
+     // System.out.println("acquiring mutex");
       mutex.acquire();
       mergeWithMaster(table);
-      System.out.println("releasing mutex");
+     // System.out.println("releasing mutex");
       mutex.release();
     } catch(InterruptedException ex){
       System.err.print(ex);
@@ -135,7 +137,7 @@ public class CounterThread extends Thread {
         master.put(word, table.get(word));
       }
     }
-    show(master);
+   // show(master);
   }
   
   
@@ -153,6 +155,24 @@ public class CounterThread extends Thread {
       String next = entries.nextElement();
       
       System.out.println(next + ",\t" + table.get(next));
+    }
+  }
+  
+  public static void output(String outputFileName){
+  File outputFile = new File(outputFileName);
+    try{
+    FileWriter writeOutputFile = new FileWriter(outputFile);
+    
+    Enumeration<String> entries = master.keys();
+    System.out.println("Enum" + entries.hasMoreElements() );
+    while(entries.hasMoreElements()){
+      String next = entries.nextElement();
+      writeOutputFile.write(next + ":\t\t" + master.get(next)+"\n");
+      System.out.println(next + ":\t\t" + master.get(next)+"\n");
+  }
+    writeOutputFile.close();
+    }catch(IOException ex){
+      System.err.println(ex);
     }
   }
   

@@ -82,6 +82,7 @@ public class WordCountSingleThread {
       System.out.println(next + ",\t" + table.get(next));
     }
   }
+  
   public void output(String outputFileName){
     File outputFile = new File(outputFileName);
     try{
@@ -98,6 +99,8 @@ public class WordCountSingleThread {
       System.err.println(ex);
     }
   }
+  
+  
   public static void main(String args[]) { //supply text folder name as first arg and output file name as second arg
     
     WordCountSingleThread abc = new WordCountSingleThread();
