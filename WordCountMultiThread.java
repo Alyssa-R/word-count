@@ -30,7 +30,7 @@ public class WordCountMultiThread{
     return files.length/threadCount;
   }
   
-  public CounterThread[] assignThreads(File[] files, int threadCount){
+  public CounterThread[] assignThreads(File[] files, int threadCount, String outputFileName){
     //int assignLength = getAssignmentLength(files, threadCount);
     int assignLength = files.length/threadCount;
     int fileIndex = 0;
@@ -45,7 +45,7 @@ public class WordCountMultiThread{
           fileIndex++;
           
         }
-        newThreads[i] = new CounterThread(assignedFiles, threadCount);
+        newThreads[i] = new CounterThread(assignedFiles, threadCount, outputFileName);
       }
     }else{ // if it cannot be divided evenly
        //fill the ones that can be assignd evenly
@@ -59,7 +59,7 @@ public class WordCountMultiThread{
           assignedFiles[j] = files[fileIndex];
           fileIndex++;
         }
-        newThreads[i] = new CounterThread(assignedFiles, threadCount);
+        newThreads[i] = new CounterThread(assignedFiles, threadCount, outputFileName);
       }
       
       //takes care of the left over
@@ -71,57 +71,23 @@ public class WordCountMultiThread{
           fileIndex++;
 
         }
-        newThreads[newThreads.length-1] = new CounterThread(assignedLeftOverFiles, threadCount);
+        newThreads[newThreads.length-1] = new CounterThread(assignedLeftOverFiles, threadCount, outputFileName);
         System.out.println("Left over files array length: " + assignedLeftOverFiles.length);
       }
     return newThreads;
   }
   
-  public void output(String outputFileName){
-    
-  }
-//  public void writeOutput(String outputFileName){
-//    File outputFile = new File(outputFileName);
-//    try{
-//      FileWriter writeOutputFile = new FileWriter(outputFile);
-//      
-//      Enumeration<String> entries = table.keys();
-//      while(entries.hasMoreElements()){
-//        String next = entries.nextElement();
-//        
-//        writeOutputFile.write(next + ":\t\t" + table.get(next)+"\n");
-//      }
-//      writeOutputFile.close();
-//    }catch(IOException ex){
-//      System.err.println(ex);
-//    }
-//  }
-//  
+  
   public static void main (String[] args){
     //get file array
     WordCountMultiThread t1 = new WordCountMultiThread();
     int threadCount = 6;
     File[] files = t1.createFileList("test-text");
-    CounterThread[] threads = t1.assignThreads(files,threadCount);
+    String outputFileName = "output2.txt";
+    CounterThread[] threads = t1.assignThreads(files,threadCount, outputFileName);
     for(int i = 0; i < threads.length; i++){
       threads[i].start();
     }
-    
-    //t1.output("output.txt");
-    //File a = new File("test-text/test1.txt");
-    //File b = new File("test-text/test2.txt");
-    //File c = new File("test-text/test3.txt");
-    
-    //CounterThread c1 = new CounterThread(a);
-    //CounterThread c2 = new CounterThread(b);
-    //CounterThread c3 = new CounterThread(c);
-    
-    
-    //count how many files
-    //make that many threads
-    //each thread creates hash table of counted words
-    //merge all the hashtables to master hashtable -- thread by thread master key
-    //generate output file from master hashtable
   
   }
 

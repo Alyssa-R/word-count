@@ -16,23 +16,27 @@ public class CounterThread extends Thread {
   static Semaphore mutex = new Semaphore(1);
   static Hashtable<String, Integer> master = new Hashtable<String, Integer>();
   static int threadCount;
+  static String outputFileName;
   static Semaphore allDone = new Semaphore(threadCount);
+  
   File file;
   File[] fileArray;
   
   /*
    * file is the assigned file for this thread to count
    */ 
-  public CounterThread(File f, int tc){
+  public CounterThread(File f, int tc, String ofn){
     super();
     this.file = f;
     this.threadCount = tc;
+    this.outputFileName = ofn;
   }
   
-  public CounterThread(File[] f, int tc){
+  public CounterThread(File[] f, int tc, String ofn){
     super();
     this.fileArray = f;
     this.threadCount = tc;
+    this.outputFileName = ofn;
   }
   
   public void run(){
@@ -47,7 +51,7 @@ public class CounterThread extends Thread {
       mutex.release();
       allDone.release();
       allDone.acquire();
-      output("output.txt");
+      output(outputFileName);
     } catch(InterruptedException ex){
       System.err.print(ex);
     }
