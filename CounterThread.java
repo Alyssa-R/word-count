@@ -137,7 +137,7 @@ public class CounterThread extends Thread {
         master.put(word, table.get(word));
       }
     }
-   // show(master);
+    show(master);
   }
   
   
