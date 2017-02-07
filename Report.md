@@ -1,5 +1,3 @@
-report specs: 
-
 ##Implementation Summary
 The design that we have implemented, when given a directory of text files, will calculate the word counts of 
 these files by "passing out" close-to-equal numbers of files to each thread up front. Each thread then counts 
@@ -17,20 +15,19 @@ hashtable, so that the final file contains all the data.
 ###### Splitting data across multiple threads:
 
    
-..*  in single thread, our program took in entire directory of suitable files to read,
-		 this approach inspired us to give each thread a similar list of files to read and report upon
-		 allowed us to move forward with dependably accurate word- count code while solving trickier issues, 
-		 having confidence in this algorithm allowed us to isolate and solve nastier bugs as they arose
+..* In single thread, our program took in entire directory of suitable files to read. With multiple threads, 
+this approach inspired us to give each thread a similar list of files to read and report upon. Using 
+ code that we already were familiar with, instead of dividing documents line by line, allowed us to
+move forward with dependably accurate word-count code while solving trickier issues. Having confidence in 
+this algorithm allowed us to isolate and solve nastier bugs as they arose.
 
-..* we toyed with the idea of a queue or stack of "unread" files, which any available thread would 'pop'
-a new file from when ready, but we decided to split the files up front and give each thread their own unread
- list.
-
-Advantages of this: no synchronization/ mutual exclusion issues with list of files, impossible for file to 
-be dropped in a mutex double-popping race
-
-Disadvantages of this: may be slower because it's possible for one thread to get bigger/heavier files, 
-it takes a long time while other threads have already completed
+..* Initially, we toyed with the idea of a queue or stack of "unread" files, which any available thread
+ would 'pop' a new file from when ready, but we decided to split the files up front and give each thread 
+ their own unread list. One disadvantage of this is that overall execution may be slower because it's 
+ possible for one thread to be assigned larger files by chance, causing all other threads to wait for it to
+ finish its larger jobs before overall execution can complete. However, this approach is overall advantageous
+ because it excludes the possibility of race conditions occurring with the file list, so no files will be
+ lost in some sort of double-popping mistake.
 		
 		 
 ####Output Challenges
@@ -63,25 +60,20 @@ generating an output file from master, finalizing the output process.
 
 ..* chose to merge hash tables between threads to consilidate data efficiently with no repeat keys,
  accurate count, don't have to reread/ re-generate any files	
- 	
-how to merge hash tables?
-		
-3. why hashtable?
-	
-4. generate file from hashtable?
-	
-5. how to make only one hashtable / merging?
-	
 	
 		
 [] Did you face any other challenges? How did you solve them?
 
+##Running Time Comparisons
+
+####Single Thread vs Multiple Threads
 [] Compare the running time of your code in task 1 to that of thread 2 with a single thread. Explain
 your results.
 
+####Varying Multiple Threads
 [] Calculate the running time of task 2, using a varying number of threads. Start with a single
 thread, and keep increasing the number of threads till the running time doesn’t change
 (significantly).
-
+#####Runtime Graph
 [] Create a plot to represent the varying running time with increased number of threads. Explain
 your results. 
