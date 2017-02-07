@@ -10,12 +10,16 @@ public class WordCountSingleThread {
     File[] files = new File(directory).listFiles(textFilter);
     //File[] fileList = files.listFiles(textFilter);
     
-      
+    System.out.println(files.length);
     for(int i=0; i < files.length; i++){
       System.out.println(files[i].toString());
       
     }
     return files;
+  }
+  
+  public int getDirectoryLength(File[] files){
+    return files.length;
   }
   
   public void countWordsInFile(File file){
@@ -102,11 +106,11 @@ public class WordCountSingleThread {
     WordCountSingleThread abc = new WordCountSingleThread();
     
   
-    File[] files = abc.createFileList(args[0]);//"test-text" //make args[0]
+    File[] files = abc.createFileList("test-text");//args[0]);//"test-text" //make args[0]
     for(File file : files){
       abc.countWordsInFile(file);
     }
-    abc.output(args[1]);//"output.txt"
+    abc.output("output.txt");//args[1]);//"output.txt"
     abc.show();
   }
 }

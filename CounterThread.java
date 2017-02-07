@@ -15,25 +15,43 @@ import java.util.Set;
 public class CounterThread extends Thread {
   static Semaphore mutex = new Semaphore(1);
   static Hashtable<String, Integer> master = new Hashtable<String, Integer>();
+  static int threadCount;
+  static String outputFileName;
+  static Semaphore allDone = new Semaphore(threadCount);
+  
   File file;
+  File[] fileArray;
   
   /*
    * file is the assigned file for this thread to count
    */ 
-  public CounterThread(File f){
+  public CounterThread(File f, int tc, String ofn){
     super();
     this.file = f;
+    this.threadCount = tc;
+    this.outputFileName = ofn;
+  }
+  
+  public CounterThread(File[] f, int tc, String ofn){
+    super();
+    this.fileArray = f;
+    this.threadCount = tc;
+    this.outputFileName = ofn;
   }
   
   public void run(){
     
-    Hashtable<String, Integer> table = countWordsInFile(file);
+    Hashtable<String, Integer> table = countWordsInMultipleFiles(fileArray);
+    
     try{
      // System.out.println("acquiring mutex");
       mutex.acquire();
       mergeWithMaster(table);
      // System.out.println("releasing mutex");
       mutex.release();
+      allDone.release();
+      allDone.acquire();
+      output(outputFileName);
     } catch(InterruptedException ex){
       System.err.print(ex);
     }
@@ -77,6 +95,45 @@ public class CounterThread extends Thread {
     return table;
   }
   
+  public Hashtable<String, Integer> countWordsInMultipleFiles(File[] fileArray){
+    Hashtable<String, Integer> table = new Hashtable<String, Integer>();
+    System.out.println("countWordsInMultipleFiles" + fileArray.length);
+    for(int i = 0; i < fileArray.length; i++){
+      try {
+        
+        Scanner sc = new Scanner(fileArray[i]);
+        
+        String words;
+        
+        while (sc.hasNext()) {
+          
+          words = sc.next();
+          //System.out.println(words);
+          words = words.toLowerCase();
+          words = words.replaceAll("[^a-zA-Z ]", "");
+          //System.out.println(words);
+          
+          //if (words.length() >= 2) {
+          //table.put(words, 1);
+          //add(words);
+          //}
+          
+          if (table.containsKey(words)) {
+            table.put(words, table.get(words) + 1);
+          } else {
+            table.put(words, 1);
+          }
+          
+        }
+        sc.close();
+        
+      } catch (FileNotFoundException e) {
+        e.printStackTrace();
+      }
+    }
+    return table;
+  }
+  
   private void mergeWithMaster(Hashtable<String, Integer> table){
     
     Set<String> keys = table.keySet();
@@ -91,7 +148,7 @@ public class CounterThread extends Thread {
         master.put(word, table.get(word));
       }
     }
-   // show(master);
+    show(master);
   }
   
   
