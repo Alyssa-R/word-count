@@ -19,7 +19,8 @@ hashtable, so that the final file contains all the data.
 this approach inspired us to give each thread a similar list of files to read and report upon. Using 
  code that we already were familiar with, instead of dividing documents line by line, allowed us to
 move forward with dependably accurate word-count code while solving trickier issues. Having confidence in 
-this algorithm allowed us to isolate and solve nastier bugs as they arose.
+this algorithm allowed us to isolate and solve nastier bugs as they arose. --runtime takes more to 
+load all the lines and ensure 'fairness'
 
 ..* Initially, we toyed with the idea of a queue or stack of "unread" files, which any available thread
  would 'pop' a new file from when ready, but we decided to split the files up front and give each thread 
@@ -40,12 +41,19 @@ the threads into a "master" hash table, which will be output to a text file afte
 finished and entered their information.
 
 To ensure accurate results in the master hashtable, we added two parts to our design.
-The first is our `merge` method, which adds another hashtable into the results of the master, adding a new
+The first is our `mergeWithMaster` method, which adds another hashtable into the results of the master,
+ adding a new
 key/value pair if the word had not been previously found or adding the new value to the existing key's value
 if the key was already in master. The other part of our design ensures that no two threads attempt to alter
 the master hashtable at the same time. Because we only alter this hashtable as shared content between threads,
 we trimmed our critical section down to only the merging of the 'instance' hashtables with the master, 
 so threads can run as much code as possible before potentially being blocked by semaphores.
+
+####Other Challenges
+######Static Variables
+Because we used static variables to share data between threads, we had/have to ensure
+that our code is freshly compiled before each run (ex. to set the master hashtable back to null) so that the
+count of each words starts from zero every run.
 
 ####Semaphores
 ###### `mutex`
@@ -55,13 +63,17 @@ the thread must `acquire` mutex, and it's released immediately after `merge` ret
 ###### `allDone`
 The allDone semaphore guarantees that all threads have terminated and submitted their data before
 generating an output file from master, finalizing the output process.
-`example code except i'm not totally sure how this semaphore works`
 
+``` 
+//thread finishes processing its assigned files
+mergeWithMaster(thisTable);
+allDone.release() //signals thread has successfully merged with master hashtable
+allDone.acquire() //attempts aquisition as signal to create output file, only possible
+                  //after all other threads merge tambles
+master.output(outputFileName.txt) //the thread that aquires the allDone is solely responsible
+                                  //for generating output
+```
 
-..* chose to merge hash tables between threads to consilidate data efficiently with no repeat keys,
- accurate count, don't have to reread/ re-generate any files	
-	
-		
 [] Did you face any other challenges? How did you solve them?
 
 ##Running Time Comparisons
