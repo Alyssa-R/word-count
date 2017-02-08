@@ -89,3 +89,30 @@ thread, and keep increasing the number of threads till the running time doesn’
 #####Runtime Graph
 [] Create a plot to represent the varying running time with increased number of threads. Explain
 your results. 
+
+
+####Reporting our Findings: 
+
+###Compare the running time of your code in task 1 to that of thread 2 with a single thread. Explain
+your results. 
+We found that our single threaded application had a much longer runtime than the multithreaded application with one thread specified. When processing the same files, our single threaded application took 6081-6833 milliseconds to complete while the multithreaded application with one thread specifed took only about 171 milliseconds to complete th same job. We were very puzzled by this outcome, and did a lot of investigation to make sure both applications were truly [rpcessing the same files. We did not find any mistakes and it appears that both applications were processing the same files. We hypothesize that the multi-threaded application takes a shorter amount of time because a separate thread from the main java thread is being created and used to proess the text documents, so the main java thread does not have to process those documents. 
+
+
+###Calculate the running time of task 2, using a varying number of threads. Start with a single
+thread, and keep increasing the number of threads till the running time doesn’t change
+(significantly). 
+
+We found that our runtimes plateaued almost immediately. As seen in the graph below, most runtimes hovered around 170 milliseconds (without any print statements) with some outliers dropping down to around 120 milliseconds. We believe these outliers were "lucky" runs that were able to be sceduled by the CPU almost immediately. 
+
+We ran the code over a directory containing 15 large classic books downloaded from gutenberg.org. These books were Alice in Wonderland, the Picture of Dorian Gray, A tale of Two Cities, Emma, Frankenstein, Pride and Prejudice, the Adventures of Sherlock Holmes, Ulysses, Great Expectations, Jane Eyre, Les Miserables, Moby Dick, the Complete Works of Shakespeare, War and Peace, and Wuthering Heights. 
+
+
+
+
+
+####Discussion
+We started this project by figuring out how to create a word counter without htinking about threads. We first looked online to see how others had implemented this kind of word counter. We found this (link) stack overflow question with a similar intent. We took that code and improved the efficiency of the example. Once our single threaded application was finished, we focused our attention on the Multi threaded application. We heavily relied on class examples and Oracle java documentation for examples of Semaphores. We also consulted Chapter 31 of **Operating Systems: Three Easy Pieces by Remzi H. Arpaci-Dusseau and Andrea C. Arpaci-Dusseau** for help with Semaphores and multi-threading design.
+
+We were very fortunate to both be proficient in the Java programming language and GitHub. These tools enabled us to focus our efforts on strengthening our multithreading knowledge and limited logistical challenges for us. 
+
+
