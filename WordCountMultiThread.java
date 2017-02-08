@@ -31,9 +31,9 @@ public class WordCountMultiThread{
     TextFileNameFilter textFilter = new TextFileNameFilter(); //only get .txt files
     File[] files = new File(directory).listFiles(textFilter); //get .txt files from specifed directory
     
-    System.out.println(files.length);
+    //System.out.println(files.length);
     for(int i=0; i < files.length; i++){
-      System.out.println(files[i].toString());
+      //System.out.println(files[i].toString());
       
     }
     return files;
@@ -62,10 +62,11 @@ public class WordCountMultiThread{
     if(files.length%threadCount == 0){ //if the files can be divided evenly amongst the threads
       System.out.println("Can be divided evenly");
       for(int i = 0; i < threadCount; i++){
-        
+        System.out.println("Thread " + i);
         File[] assignedFiles = new File[assignLength]; //fiel array to be passed into CounterThread constructor
         
         for(int j = 0; j < assignLength; j++){
+          System.out.println(files[fileIndex].toString());
           assignedFiles[j] = files[fileIndex];
           fileIndex++;
         }
@@ -76,13 +77,16 @@ public class WordCountMultiThread{
     }else{ // if the files cannot be divided evenly
        
       System.out.println("Can't be divided evenly");
-      System.out.println("File Index: " + fileIndex);
+      //System.out.println("File Index: " + fileIndex);
       
       for(int i = 0; i < threadCount-1; i++){ // fill the threads that can be assigned evenly
-        System.out.println("Creating Thread: " + i);
+        System.out.println("Thread " + i);
+       // System.out.println("Creating Thread: " + i);
+        //System.out.println(files[fileIndex].toString());
         File[] assignedFiles = new File[assignLength];
         
         for(int j = 0; j < assignLength; j++){
+          System.out.println(files[fileIndex].toString());
           assignedFiles[j] = files[fileIndex];
           fileIndex++;
         }
@@ -91,23 +95,26 @@ public class WordCountMultiThread{
       
       //populates the last thread with the remaining files 
         int filesLeftOver = files.length - fileIndex;
-        System.out.println("Number of Files Left Over: " + filesLeftOver);
-        
+       // System.out.println("Number of Files Left Over: " + filesLeftOver);
+        int minusOne = newThreads.length;
+        System.out.println("Thread " + minusOne);
         File[] assignedLeftOverFiles = new File[filesLeftOver];
         for(int j = 0; j < filesLeftOver; j++){ 
+          
+          System.out.println(files[fileIndex].toString());
           assignedLeftOverFiles[j] = files[fileIndex];
           fileIndex++;
         }
         
         newThreads[newThreads.length-1] = new CounterThread(assignedLeftOverFiles, threadCount, outputFileName); //fill the last thread with the remaining files
-        System.out.println("Left over files array length: " + assignedLeftOverFiles.length);
+        //System.out.println("Left over files array length: " + assignedLeftOverFiles.length);
       }
     return newThreads;
   }
   
   
   public static void main (String[] args){
- 
+    long startTime = System.currentTimeMillis();
     int threadCount = Integer.parseInt(args[0]);
     String outputFileName = args[1];
     
@@ -119,8 +126,12 @@ public class WordCountMultiThread{
     
     for(int i = 0; i < threads.length; i++){
       threads[i].start();
+      System.out.println("Thread created");
     }
   
+    long endTime   = System.currentTimeMillis();
+    long totalTime = endTime - startTime;
+    System.out.println(totalTime);
   }
 
 }

@@ -129,7 +129,7 @@ public class CounterThread extends Thread {
    */ 
   public Hashtable<String, Integer> countWordsInMultipleFiles(File[] fileArray){
     Hashtable<String, Integer> table = new Hashtable<String, Integer>();
-    System.out.println("countWordsInMultipleFiles" + fileArray.length);
+    //System.out.println("countWordsInMultipleFiles" + fileArray.length);
     for(int i = 0; i < fileArray.length; i++){
       try {
         
@@ -198,7 +198,7 @@ public class CounterThread extends Thread {
     while(entries.hasMoreElements()){
       String next = entries.nextElement(); 
       
-      System.out.println(next + ",\t" + table.get(next)); //print in the form: <word>,    <# occurences>
+      //System.out.println(next + ",\t" + table.get(next)); //print in the form: <word>,    <# occurences>
     }
   }
   
@@ -222,7 +222,7 @@ public class CounterThread extends Thread {
       while(entries.hasMoreElements()){
         String next = entries.nextElement();
         writeOutputFile.write(next + ":\t\t" + master.get(next)+"\n"); //write each line in the form: <word>,    <# occurences>
-        System.out.println(next + ":\t\t" + master.get(next)+"\n");
+        //System.out.println(next + ":\t\t" + master.get(next)+"\n");
       }
       
       writeOutputFile.close();

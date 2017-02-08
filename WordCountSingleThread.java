@@ -25,9 +25,9 @@ public class WordCountSingleThread {
     File[] files = new File(directory).listFiles(textFilter);
     //File[] fileList = files.listFiles(textFilter);
     
-    System.out.println(files.length);
+   // System.out.println(files.length);
     for(int i=0; i < files.length; i++){
-      System.out.println(files[i].toString());
+      //System.out.println(files[i].toString());
       
     }
     return files;
@@ -63,7 +63,7 @@ public class WordCountSingleThread {
         //System.out.println(words);
         words = words.toLowerCase();
         words = words.replaceAll("[^a-zA-Z ]", "");
-        System.out.println(words);
+        //System.out.println(words);
         
         //if (words.length() >= 2) {
         //table.put(words, 1);
@@ -71,7 +71,7 @@ public class WordCountSingleThread {
         //}
         
         if (table.containsKey(words)) {
-          table.put(words, table.get(words) + 1);
+          table.put(words, table.get(words));// + 1);
         } else {
           table.put(words, 1);
         }
@@ -107,7 +107,7 @@ public class WordCountSingleThread {
     while(entries.hasMoreElements()){
       String next = entries.nextElement();
       
-      System.out.println(next + ",\t" + table.get(next));
+      //System.out.println(next + ",\t" + table.get(next));
     }
   }
   
@@ -131,14 +131,19 @@ public class WordCountSingleThread {
   
   public static void main(String args[]) { //supply text folder name as first arg and output file name as second arg
     
+    long startTime = System.currentTimeMillis();
     WordCountSingleThread abc = new WordCountSingleThread();
     
   
-    File[] files = abc.createFileList("test-text");//args[0]);//"test-text" //make args[0]
+    File[] files = abc.createFileList("gutenberg-testing");//args[0]);//"test-text" //make args[0]
     for(File file : files){
       abc.countWordsInFile(file);
     }
-    abc.output("output.txt");//args[1]);//"output.txt"
-    abc.show();
+    abc.output("output96.txt");//args[1]);//"output.txt"
+    //abc.show();
+    long endTime   = System.currentTimeMillis();
+    long totalTime = endTime - startTime;
+    System.out.println(totalTime);
   }
+  
 }
