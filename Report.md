@@ -1,3 +1,5 @@
+#####REPORT
+
 ##Implementation Summary
 The design that we have implemented, when given a directory of text files, will calculate the word counts of 
 these files by "passing out" close-to-equal numbers of files to each thread up front. Each thread then counts 
