@@ -1,3 +1,12 @@
+/* Hannah Murphy and Alyssa Rivera
+ * CS 349a - Assignment 1
+ * Febrary 7, 2017
+ * 
+ * WordCountSingleThread.java
+ * 
+ * Counts the total occurences of a word in a directory of files
+ */
+
 import java.util.*;
 import java.io.*;
 
@@ -5,6 +14,12 @@ public class WordCountSingleThread {
   
   private Hashtable<String, Integer> table = new Hashtable<String, Integer>();
   
+  /*createFileList()
+   * 
+   * Creates an array of files that contains the full list of .txt files from the specified directory
+   * 
+   * @param: directory - the string used to find the directory where the .txt files are stored
+   */ 
   public File[] createFileList(String directory) {
     TextFileNameFilter textFilter = new TextFileNameFilter();
     File[] files = new File(directory).listFiles(textFilter);
@@ -18,10 +33,23 @@ public class WordCountSingleThread {
     return files;
   }
   
+  /*getDirectoryLength()
+   * 
+   * Gets the full length of the directory to be processed. 
+   * 
+   * @param: files - a file array to be counted
+   */
   public int getDirectoryLength(File[] files){
     return files.length;
   }
   
+  
+  /*countWordsInFile()
+   * 
+   * Scans each file in fileArray and makes a hashtable of the word occurences 
+   * 
+   * @param: file - a file to be processed
+   */ 
   public void countWordsInFile(File file){
       try {
       
